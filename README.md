@@ -12,6 +12,9 @@ Auto-Skill observes your coding sessions across 10 supported agents, detects rep
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Docs](https://img.shields.io/badge/docs-Docusaurus-blue.svg)](https://MaTriXy.github.io/auto-skill)
 
+
+https://github.com/user-attachments/assets/7f0bf716-9c7a-47bd-86f4-92fe62be128b
+
 ## Quick Start
 
 ```bash
