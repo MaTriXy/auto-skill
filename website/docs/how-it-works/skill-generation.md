@@ -4,7 +4,7 @@ sidebar_position: 3
 
 # Skill Generation
 
-The Skill Forge (`core/skill_generator.py`) turns detected patterns into valid SKILL.md files compatible with any supported coding agent's skill system.
+The Skill Forge (`src/core/skill-generator.ts`) turns detected patterns into valid SKILL.md files compatible with any supported coding agent's skill system.
 
 ## Output Format
 
@@ -96,7 +96,7 @@ Skills are **never activated without approval**. The generation process creates 
 You can review candidates via:
 
 ```bash
-python -m commands.discover           # CLI
+auto-skill discover                   # CLI
 # or
-python web/app.py                     # Web UI at localhost:8000
+auto-skill serve                      # Web UI
 ```

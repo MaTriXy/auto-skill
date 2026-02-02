@@ -28,38 +28,42 @@ auto-skill discover --wellknown    # Include well-known discovery
 
 Implement the `SkillProvider` protocol:
 
-```python
-from core.providers.base import SkillProvider, SkillSearchResult
+```typescript
+import { SkillProvider, SkillSearchResult } from '../core/providers/base';
 
-class MyProvider:
-    @property
-    def name(self) -> str:
-        return "my-provider"
+class MyProvider implements SkillProvider {
+  get name(): string {
+    return 'my-provider';
+  }
 
-    @property
-    def source_id(self) -> str:
-        return "custom"
+  get sourceId(): string {
+    return 'custom';
+  }
 
-    def is_available(self) -> bool:
-        return True
+  isAvailable(): boolean {
+    return true;
+  }
 
-    def search(self, query: str, limit: int = 10) -> list[SkillSearchResult]:
-        # Return matching skills
-        ...
+  search(query: string, limit = 10): SkillSearchResult[] {
+    // Return matching skills
+    return [];
+  }
 
-    def get_skill_details(self, skill_id: str) -> dict | None:
-        # Return full skill metadata
-        ...
+  getSkillDetails(skillId: string): Record<string, unknown> | null {
+    // Return full skill metadata
+    return null;
+  }
+}
 ```
 
 Register with the `ProviderManager`:
 
-```python
-from core.providers.manager import ProviderManager
+```typescript
+import { ProviderManager } from '../core/providers/manager';
 
-manager = ProviderManager()
-manager.register(MyProvider())
-results = manager.search_all("payment", limit=10)
+const manager = new ProviderManager();
+manager.register(new MyProvider());
+const results = manager.searchAll('payment', 10);
 ```
 
 Providers are queried in registration order (first = highest priority). Failed providers are skipped gracefully.

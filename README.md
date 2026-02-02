@@ -6,7 +6,7 @@
 
 **Automatically learn from your workflows and turn them into intelligent, context-aware skills.**
 
-Auto-Skill observes your coding sessions across 10 supported agents, detects repeated patterns, and generates reusable SKILL.md files. Skills are automatically shared across all your installed agents. It combines local pattern detection with external skill discovery, cross-agent sharing, and anonymous telemetry.
+Auto-Skill observes your coding sessions across multiple supported agents, detects repeated patterns, and generates reusable SKILL.md files. Skills are automatically shared across all your installed agents. It combines local pattern detection with external skill discovery, cross-agent sharing, and anonymous telemetry.
 
 [![npm](https://img.shields.io/npm/v/@matrixy/auto-skill)](https://www.npmjs.com/package/@matrixy/auto-skill)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
@@ -59,7 +59,7 @@ All commands support `--json` output.
 - **18 Design Patterns** — Architectural, coding, and workflow pattern recognition
 - **External Discovery** — 27,000+ community skills from [Skills.sh](https://skills.sh)
 - **Mental Model Integration** — Semantic codebase understanding via [@mentalmodel/cli](https://github.com/Michaelliv/mental)
-- **Multi-Agent Support** — 10 coding agents (Claude Code, Codex, Cursor, Aider, etc.) with cross-agent skill sharing via symlinks
+- **Multi-Agent Support** — multiple coding agents (Claude Code, Codex, Cursor, Aider, etc.) with cross-agent skill sharing via symlinks
 - **Provider System** — Pluggable skill discovery (local, Skills.sh, RFC 8615 well-known endpoints)
 - **Lock File** — SHA-256 integrity verification with atomic writes
 - **Spec Compliance** — Generated skills validated against [agentskills.io](https://agentskills.io) spec

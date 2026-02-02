@@ -51,8 +51,7 @@ This context enriches generated skills with "When to Use" guidance.
 The `LSPAnalyzer` parses your codebase to understand what the tools were operating on.
 
 **Capabilities:**
-- **Python** — Full AST analysis (classes, functions, decorators, signatures)
-- **JavaScript/TypeScript** — Regex-based extraction (tree-sitter framework ready)
+- **TypeScript/JavaScript** — AST analysis (classes, functions, decorators, signatures)
 
 **Extracts:**
 - Symbol definitions (classes, functions, variables)

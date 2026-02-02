@@ -15,7 +15,7 @@ slug: /
 
 **Automatically generate skills for any coding agent by observing your workflow.**
 
-> **v3.0 — Now universal.** Auto-Skill is no longer Claude Code-only. It supports 10 coding agents (Claude Code, Cursor, Codex, Aider, Windsurf, and more) with cross-agent skill sharing. A skill learned in one agent is instantly available in all others.
+> **v4.0 — Now powered by Node.js.** Auto-Skill has been completely rewritten from Python to TypeScript/Node.js for better performance and broader ecosystem integration. It supports multiple coding agents (Claude Code, Cursor, Codex, Aider, Windsurf, and more) with cross-agent skill sharing. A skill learned in one agent is instantly available in all others.
 
 Auto-Skill watches how you work across your coding agents, detects repeated patterns, and turns them into reusable [SKILL.md](https://docs.anthropic.com/en/docs/claude-code/skills) files — so your agents learn from your habits without you having to write skills manually.
 
@@ -47,9 +47,17 @@ You review and approve → skill is active
 - **Graduation System** — External skills earn trust through usage, graduating to local skills at high confidence
 - **Human-in-the-Loop** — Every skill requires your approval before activation
 
-### New in V3.0
+### New in V4.0
 
-- **[Multi-Agent Support](features/agent-registry)** — 10 coding agents with cross-agent skill sharing
+- **Node.js/TypeScript Migration** — Complete rewrite from Python to TypeScript for better performance and ecosystem fit
+- **MCP Server** — Stdio + HTTP server for tool integration
+- **Content-Addressable Storage** — SHA-256 based skill storage with atomic file writes
+- **WAL Journal Mode** — Improved SQLite concurrency with better-sqlite3
+- **ULID Identifiers** — Time-sortable unique IDs replacing UUIDs
+
+### From V3.0
+
+- **[Multi-Agent Support](features/agent-registry)** — Multiple coding agents with cross-agent skill sharing
 - **[Provider System](features/providers)** — Pluggable skill discovery (local, Skills.sh, RFC 8615)
 - **[Lock File](features/security)** — SHA-256 integrity verification with atomic writes
 - **[Anonymous Telemetry](features/telemetry)** — Privacy-first usage tracking

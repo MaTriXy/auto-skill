@@ -51,7 +51,7 @@ Auto-Skill follows a three-stage pipeline: **Observe → Detect → Forge**, wit
 | **SequenceMatcher** | `src/core/sequence-matcher.ts` | Sliding-window subsequence extraction |
 | **SkillGenerator** | `src/core/skill-generator.ts` | SKILL.md file generation |
 | **SessionAnalyzer** | `src/core/session-analyzer.ts` | Conversation intent and context |
-| **LSPAnalyzer** | `src/core/lsp-analyzer.ts` | Code structure via AST/tree-sitter |
+| **MentalAnalyzer** | `src/core/mental-analyzer.ts` | Semantic codebase understanding |
 | **DesignPatternDetector** | `src/core/design-pattern-detector.ts` | 18 pattern recognizers |
 | **Config** | `src/core/config.ts` | Configuration management |
 

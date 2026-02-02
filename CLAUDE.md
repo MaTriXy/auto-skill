@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Auto-Skill** is a system that automatically generates coding agent skills by observing workflow patterns, detecting repetition, and codifying successful procedures into reusable SKILL.md files. It supports 10 coding agents (Claude Code, Cursor, Codex, Aider, Windsurf, and more) with cross-agent skill sharing, enabling any agent to learn from interactions and create skills autonomously.
+**Auto-Skill** is a system that automatically generates coding agent skills by observing workflow patterns, detecting repetition, and codifying successful procedures into reusable SKILL.md files. It supports multiple coding agents (Claude Code, Cursor, Codex, Aider, Windsurf, and more) with cross-agent skill sharing, enabling any agent to learn from interactions and create skills autonomously.
 
 **Install:** `npx skills add MaTriXy/auto-skill`
 
@@ -80,10 +80,10 @@ The system follows a pipeline architecture with three main stages:
 
 ## Integration Points
 
-- **Agent Skills System**: Outputs compatible SKILL.md format for 10 coding agents
+- **Agent Skills System**: Outputs compatible SKILL.md format for multiple coding agents
 - **Skills CLI**: Installable via `npx skills add MaTriXy/auto-skill`
 - **Skills.sh**: External skill discovery and publishing
-- **Multi-Agent**: Supports 10 coding agents with cross-agent skill sharing via symlinks
+- **Multi-Agent**: Supports multiple coding agents with cross-agent skill sharing via symlinks
 - **User Workflow**: Non-intrusive observation, confirmation-based activation
 
 ## Development

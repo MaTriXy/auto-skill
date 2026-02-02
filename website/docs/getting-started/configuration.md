@@ -42,7 +42,6 @@ v2:
   enable_lsp_analysis: true        # Code structure via AST/tree-sitter
   enable_pattern_detection: true   # Design pattern recognition
   lsp_languages:                   # Languages for code analysis
-    - python
     - javascript
     - typescript
 ```
@@ -101,7 +100,6 @@ v2:
   enable_lsp_analysis: true
   enable_pattern_detection: true
   lsp_languages:
-    - python
     - javascript
     - typescript
 

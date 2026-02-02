@@ -21,19 +21,16 @@ External Search →  lower priority (community, untested)
 
 ```bash
 # Search local patterns
-python -m commands.discover
+auto-skill discover
 
 # Search Skills.sh community
-python -m commands.discover --search "authentication"
-
-# Filter by domain (requires Mental Model)
-python -m commands.discover --domain Payment
+auto-skill search "authentication"
 
 # View adoption stats
-python -m commands.discover --stats
+auto-skill stats
 
 # JSON output
-python -m commands.discover --json
+auto-skill discover --json
 ```
 
 ## Skills.sh Integration
@@ -66,7 +63,7 @@ When an external skill proves itself, it can graduate to a local skill with full
 - Confidence reaches 85%
 
 **Process:**
-1. `GraduationManager.detect_candidates()` finds eligible skills
+1. `GraduationManager.detectCandidates()` finds eligible skills
 2. User reviews and approves the promotion
 3. A local SKILL.md is generated in `~/.claude/skills/auto/`
 4. The graduation is logged in `graduation_log.json`
@@ -74,7 +71,7 @@ When an external skill proves itself, it can graduate to a local skill with full
 
 ```bash
 # View graduation candidates
-python -m commands.discover --candidates
+auto-skill graduate
 ```
 
 ### Confidence Lifecycle
@@ -97,13 +94,10 @@ If you've built skills that could help others, Auto-Skill can publish them to Sk
 
 ```bash
 # Find publishable skills (≥85% confidence, ≥5 uses, ≥80% success)
-python -m core.skillssh_publisher detect
-
-# Publish a skill
-python -m core.skillssh_publisher publish <skill_name>
+auto-skill discover --publishable
 
 # Sync community stats (installs, ratings)
-python -m core.skillssh_publisher sync
+auto-skill stats --sync
 ```
 
 Published skills track community install counts and ratings, so you can see how your workflows help others.

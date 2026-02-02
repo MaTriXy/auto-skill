@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Agent Registry
 
-Auto-Skill detects and supports 10 coding agents, enabling cross-agent skill sharing through filesystem symlinks.
+Auto-Skill detects and supports multiple coding agents, enabling cross-agent skill sharing through filesystem symlinks.
 
 ## Supported Agents
 
