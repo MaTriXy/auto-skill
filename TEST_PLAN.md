@@ -35,8 +35,8 @@ auto-skill version
 auto-skill init
 # Expected: Creates config and directories
 
-auto-skill search "react testing"
-# Expected: Returns skills from skills.sh
+auto-skill discover
+# Expected: Shows detected patterns and recommendations
 
 auto-skill agents detect
 # Expected: Lists detected coding agents
@@ -166,8 +166,8 @@ which auto-skill
 auto-skill version
 # Expected: 5.0.0-beta.1
 
-# Test search
-auto-skill search "vue testing"
+# Test discover
+auto-skill discover
 ```
 
 **Expected:**

@@ -60,10 +60,11 @@ Patterns above the confidence threshold (default: 0.7) can be turned into SKILL.
 
 ## 5. Discover Community Skills
 
-Search Skills.sh for existing skills that match your workflow:
+Auto-Skill can proactively suggest community skills from Skills.sh when it detects patterns. For manual searching, use **Skills CLI**:
 
 ```bash
-auto-skill search "testing workflow"
+npx skills find testing workflow    # Interactive search
+npx skills add owner/repo@skill     # Install specific skill
 ```
 
 External skills start at 50% confidence and graduate to local skills after proving themselves (5+ uses, 80% success rate).

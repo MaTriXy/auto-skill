@@ -36,14 +36,14 @@ auto-skill discover --effectiveness    # Show effectiveness data
 auto-skill discover --json             # JSON output
 ```
 
-### `auto-skill search`
-
-Search for skills on Skills.sh.
-
+:::note Searching for Skills
+To search for community skills, use **Skills CLI** instead:
 ```bash
-auto-skill search "payment"       # Search by keyword
-auto-skill search "testing" --limit 5
+npx skills find react testing    # Interactive search
+npx skills add owner/repo@skill  # Install specific skill
 ```
+Auto-Skill focuses on **generating** skills, while Skills CLI handles **distribution**.
+:::
 
 ### `auto-skill stats`
 

@@ -20,17 +20,20 @@ External Search →  lower priority (community, untested)
 ### Searching
 
 ```bash
-# Search local patterns
+# Discover skills from all sources
 auto-skill discover
-
-# Search Skills.sh community
-auto-skill search "authentication"
 
 # View adoption stats
 auto-skill stats
 
 # JSON output
 auto-skill discover --json
+```
+
+To search the Skills.sh community directly, use **Skills CLI**:
+```bash
+npx skills find authentication    # Interactive search
+npx skills add owner/repo@skill   # Install specific skill
 ```
 
 ## Skills.sh Integration

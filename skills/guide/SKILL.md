@@ -134,11 +134,16 @@ Claude can automatically discover relevant skills using the `skill-discovery` sk
 
 ```bash
 auto-skill discover             # Discover skill patterns
-auto-skill search "query"       # Search skills (FTS5)
 auto-skill stats                # Show adoption statistics
 auto-skill graduate             # Manage skill graduation
 auto-skill agents list          # List known agents
 auto-skill agents detect        # Detect installed agents
+```
+
+To search for community skills, use **Skills CLI**:
+```bash
+npx skills find "query"         # Interactive search
+npx skills add owner/repo       # Install skill
 ```
 
 ## Execution Contexts

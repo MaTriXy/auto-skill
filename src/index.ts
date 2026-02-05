@@ -19,7 +19,6 @@ export { createTelemetryCollector, isTelemetryDisabled, track } from "./core/tel
 export { createSkillTracker } from "./core/skill-tracker";
 export { createMentalAnalyzer } from "./core/mental-analyzer";
 export { createUnifiedSuggester } from "./core/unified-suggester";
-export { createSkillsShClient } from "./core/skillssh-client";
 export { createExternalSkillLoader } from "./core/external-skill-loader";
 export { createProactiveDiscovery } from "./core/proactive-discovery";
 export { createSkillRecommendationEngine } from "./core/skill-recommendation-engine";
@@ -28,7 +27,6 @@ export { createSkillRecommendationEngine } from "./core/skill-recommendation-eng
 export {
   createProviderManager,
   createLocalProvider,
-  createSkillsShProvider,
   createWellKnownProvider,
 } from "./core/providers";
 
