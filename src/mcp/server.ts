@@ -200,7 +200,7 @@ async function handleToolCall(name: string, args: Record<string, unknown>): Prom
 }
 
 /** Handle an incoming JSON-RPC request and return a response. */
-function handleRequest(req: McpRequest): McpResponse {
+async function handleRequest(req: McpRequest): Promise<McpResponse> {
   const base = { jsonrpc: "2.0" as const, id: req.id };
 
   switch (req.method) {
@@ -210,7 +210,7 @@ function handleRequest(req: McpRequest): McpResponse {
         result: {
           protocolVersion: "2024-11-05",
           capabilities: { tools: {} },
-          serverInfo: { name: "auto-skill", version: "4.0.1" },
+          serverInfo: { name: "auto-skill", version: "5.0.0" },
         },
       };
 
@@ -222,14 +222,23 @@ function handleRequest(req: McpRequest): McpResponse {
       const name = params.name as string;
       const args = (params.arguments || {}) as Record<string, unknown>;
 
-      // Note: In production, this would be async
-      // For simplicity, we return a sync stub
-      return {
-        ...base,
-        result: {
-          content: [{ type: "text", text: JSON.stringify({ tool: name, args, status: "queued" }) }],
-        },
-      };
+      try {
+        const result = await handleToolCall(name, args);
+        return {
+          ...base,
+          result: {
+            content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+          },
+        };
+      } catch (error) {
+        return {
+          ...base,
+          error: {
+            code: -32603,
+            message: error instanceof Error ? error.message : "Tool execution failed",
+          },
+        };
+      }
     }
 
     default:
@@ -242,10 +251,10 @@ export function startMcpServer(): void {
   const readline = require("node:readline");
   const rl = readline.createInterface({ input: process.stdin });
 
-  rl.on("line", (line: string) => {
+  rl.on("line", async (line: string) => {
     try {
       const req = JSON.parse(line) as McpRequest;
-      const response = handleRequest(req);
+      const response = await handleRequest(req);
       process.stdout.write(JSON.stringify(response) + "\n");
     } catch (err) {
       const errorResponse: McpResponse = {

@@ -122,17 +122,22 @@ export class SkillRecommendationEngine {
 
   /**
    * Get external skill details (fetch content).
+   *
+   * @param source - Repository source (e.g., "owner/repo")
+   * @param skillId - Skill ID to load
    */
   async loadExternalSkill(
     source: string,
     skillId: string
   ): Promise<ExternalSkill | null> {
     const response = await this.loader.search(skillId, {
-      limit: 1,
+      limit: 10,
       includeContent: true,
     });
 
-    return response.skills.length > 0 ? response.skills[0] : null;
+    // Filter by exact source match to avoid ID collisions across repos
+    const skill = response.skills.find((s) => s.source === source);
+    return skill ?? null;
   }
 
   /**
