@@ -109,4 +109,4 @@ confidence = (
 | `max_sequence_length` | 10 | Longest pattern |
 | `lookback_days` | 7 | Analysis time window |
 
-All configurable in `auto-skill.local.md`. See [Configuration](/getting-started/configuration).
+All configurable in `auto-skill.local.md`. See [Configuration](/docs/getting-started/configuration).

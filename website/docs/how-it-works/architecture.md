@@ -85,7 +85,7 @@ When enabled, the pipeline extends with external sources:
 
 ## Storage
 
-All data is local. Anonymous telemetry is opt-in with privacy-first defaults (see [Telemetry](/features/telemetry)).
+All data is local. Anonymous telemetry is opt-in with privacy-first defaults (see [Telemetry](/docs/features/telemetry)).
 
 | Store | Location | Format |
 |-------|----------|--------|

@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Quick Start
 
-Once you've [installed](/getting-started/installation) Auto-Skill and registered the hooks, here's what happens.
+Once you've [installed](/docs/getting-started/installation) Auto-Skill and registered the hooks, here's what happens.
 
 ## 1. Work Normally
 
@@ -81,6 +81,6 @@ auto-skill start:web
 
 ## What's Next
 
-- [Configuration](/getting-started/configuration) — Tune detection thresholds and enable features
-- [How It Works](/how-it-works/architecture) — Understand the pipeline architecture
-- [Pattern Detection](/how-it-works/pattern-detection) — Deep dive into how patterns are found
+- [Configuration](/docs/getting-started/configuration) — Tune detection thresholds and enable features
+- [How It Works](/docs/how-it-works/architecture) — Understand the pipeline architecture
+- [Pattern Detection](/docs/how-it-works/pattern-detection) — Deep dive into how patterns are found
