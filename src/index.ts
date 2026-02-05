@@ -20,6 +20,9 @@ export { createSkillTracker } from "./core/skill-tracker";
 export { createMentalAnalyzer } from "./core/mental-analyzer";
 export { createUnifiedSuggester } from "./core/unified-suggester";
 export { createSkillsShClient } from "./core/skillssh-client";
+export { createExternalSkillLoader } from "./core/external-skill-loader";
+export { createProactiveDiscovery } from "./core/proactive-discovery";
+export { createSkillRecommendationEngine } from "./core/skill-recommendation-engine";
 
 // Providers
 export {
@@ -80,3 +83,16 @@ export type {
   TelemetryEvent,
   EffectivenessReport,
 } from "./types";
+
+// New proactive discovery types
+export type {
+  ExternalSkill as CommunitySkill,
+  SkillSearchResponse,
+} from "./core/external-skill-loader";
+export type {
+  WorkflowContext,
+  SkillRecommendation,
+} from "./core/proactive-discovery";
+export type {
+  UnifiedRecommendation,
+} from "./core/skill-recommendation-engine";

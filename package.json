@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "4.0.1",
+  "version": "5.0.0",
   "description": "Automatically learn from your workflows and turn them into intelligent, context-aware skills",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

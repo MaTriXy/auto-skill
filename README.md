@@ -6,7 +6,7 @@
 
 **Automatically learn from your workflows and turn them into intelligent, context-aware skills.**
 
-Auto-Skill observes your coding sessions across multiple supported agents, detects repeated patterns, and generates reusable SKILL.md files. Skills are automatically shared across all your installed agents. It combines local pattern detection with external skill discovery, cross-agent sharing, and anonymous telemetry.
+Auto-Skill v5.0 introduces **Proactive Skill Discovery** - a closed-loop learning system that observes your coding sessions, detects repeated patterns, and **proactively suggests relevant community skills** from 27,000+ external sources before you even ask. It combines local pattern detection with external skill discovery, cross-agent sharing, and anonymous telemetry.
 
 [![npm](https://img.shields.io/npm/v/@matrixy/auto-skill)](https://www.npmjs.com/package/@matrixy/auto-skill)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
@@ -54,12 +54,19 @@ All commands support `--json` output.
 
 ## Key Features
 
+### 🚀 **NEW in v5.0: Proactive Skill Discovery**
+- **Context-Aware Recommendations** — Automatically suggests community skills based on detected frameworks, languages, and intent
+- **27,000+ External Skills** — Search and load from [Skills.sh](https://skills.sh) in real-time
+- **Hybrid Learning** — Combines local pattern detection with external skill discovery
+- **Smart Graduation** — Suggests upgrading local patterns to battle-tested community skills
+- **Zero-Config Search** — Works out of the box, GitHub token optional for higher rate limits
+
+### 🎯 Core Features
 - **Pattern Detection** — Automatically detects repeated tool sequences across sessions
 - **Session Analysis** — Identifies intent (debug, implement, refactor) and workflow types (TDD, etc.)
 - **18 Design Patterns** — Architectural, coding, and workflow pattern recognition
-- **External Discovery** — 27,000+ community skills from [Skills.sh](https://skills.sh)
 - **Mental Model Integration** — Semantic codebase understanding via [@mentalmodel/cli](https://github.com/Michaelliv/mental)
-- **Multi-Agent Support** — multiple coding agents (Claude Code, Codex, Cursor, Aider, etc.) with cross-agent skill sharing via symlinks
+- **Multi-Agent Support** — Cross-agent skill sharing (Claude Code, Codex, Cursor, Aider, etc.) via symlinks
 - **Provider System** — Pluggable skill discovery (local, Skills.sh, RFC 8615 well-known endpoints)
 - **Lock File** — SHA-256 integrity verification with atomic writes
 - **Spec Compliance** — Generated skills validated against [agentskills.io](https://agentskills.io) spec
@@ -67,9 +74,55 @@ All commands support `--json` output.
 - **Confidence Evolution** — Skills improve from 50% (external) → 75% (proven) → 85% (graduated)
 - **Anonymous Telemetry** — Privacy-first usage tracking ([details below](#telemetry))
 
+## Proactive Discovery Example
+
+```typescript
+import {
+  createExternalSkillLoader,
+  createProactiveDiscovery,
+  createSkillRecommendationEngine,
+} from '@matrixy/auto-skill';
+
+const loader = createExternalSkillLoader({
+  githubToken: process.env.GITHUB_TOKEN, // Optional
+});
+
+const discovery = createProactiveDiscovery(loader);
+const engine = createSkillRecommendationEngine(loader, discovery);
+
+await loader.start();
+
+// Search community skills
+const response = await loader.search('react testing', { limit: 5 });
+console.log(response.skills);
+
+// Get context-aware recommendations
+const recommendations = await engine.recommendForPattern(detectedPattern);
+console.log(recommendations);
+// [
+//   {
+//     type: 'hybrid',
+//     externalSkill: { title: 'React Test Patterns', ... },
+//     localPattern: { ... },
+//     reason: 'Your workflow matches "React Test Patterns". Use it instead?',
+//     confidence: 0.9,
+//     action: 'graduate'
+//   }
+// ]
+
+await loader.stop();
+```
+
+**See [`examples/proactive-discovery.ts`](examples/proactive-discovery.ts) for complete examples.**
+
 ## Documentation
 
 **Full documentation: [https://MaTriXy.github.io/auto-skill](https://MaTriXy.github.io/auto-skill)**
+
+### New in v5.0
+- 🎉 [Release Announcement](https://MaTriXy.github.io/auto-skill) — What's new in v5.0
+- 📚 [Proactive Discovery Guide](https://MaTriXy.github.io/auto-skill/docs/features/proactive-discovery) — Complete usage guide
+- 🎯 [Example Code](examples/proactive-discovery.ts) — 5 runnable examples
 
 ## Development
 
@@ -97,4 +150,4 @@ MIT License - see [LICENSE](LICENSE)
 
 ---
 
-**Version 4.0.1** | [Repository](https://github.com/MaTriXy/auto-skill) | [Issues](https://github.com/MaTriXy/auto-skill/issues) | [Changelog](CHANGELOG.md)
+**Version 5.0.0** | [Repository](https://github.com/MaTriXy/auto-skill) | [Issues](https://github.com/MaTriXy/auto-skill/issues) | [Changelog](CHANGELOG.md)

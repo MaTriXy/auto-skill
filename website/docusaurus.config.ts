@@ -35,12 +35,20 @@ const config: Config = {
       'classic',
       {
         docs: {
-          routeBasePath: '/',
+          routeBasePath: 'docs',
           sidebarPath: './sidebars.ts',
           editUrl:
             'https://github.com/MaTriXy/auto-skill/tree/main/website/',
         },
-        blog: false,
+        blog: {
+          routeBasePath: '/',
+          blogTitle: 'Auto-Skill Release Notes',
+          blogDescription: 'Release announcements and feature updates for Auto-Skill',
+          blogSidebarTitle: 'All Releases',
+          blogSidebarCount: 'ALL',
+          showReadingTime: true,
+          editUrl: 'https://github.com/MaTriXy/auto-skill/tree/main/website/',
+        },
         pages: false,
         theme: {
           customCss: './src/css/custom.css',
@@ -61,6 +69,17 @@ const config: Config = {
       },
       items: [
         {
+          type: 'docSidebar',
+          sidebarId: 'tutorialSidebar',
+          position: 'left',
+          label: 'Docs',
+        },
+        {
+          to: '/',
+          label: 'Releases',
+          position: 'left',
+        },
+        {
           href: 'https://github.com/MaTriXy/auto-skill',
           label: 'GitHub',
           position: 'right',
@@ -75,13 +94,21 @@ const config: Config = {
           items: [
             {
               label: 'Getting Started',
-              to: '/getting-started/installation',
+              to: '/docs/getting-started/installation',
+            },
+            {
+              label: 'Proactive Discovery',
+              to: '/docs/features/proactive-discovery',
             },
           ],
         },
         {
-          title: 'More',
+          title: 'Community',
           items: [
+            {
+              label: 'Release Notes',
+              to: '/',
+            },
             {
               label: 'GitHub',
               href: 'https://github.com/MaTriXy/auto-skill',
