@@ -45,23 +45,6 @@ export function createCli(): Command {
       await discoverCommand(opts);
     });
 
-  // search command (DEPRECATED - use Skills CLI instead)
-  program
-    .command("search <query>")
-    .description("[DEPRECATED] Search skills - use 'npx skills find' instead")
-    .option("--limit <n>", "Limit results", "10")
-    .option("--json", "Output as JSON")
-    .action(async (query, opts) => {
-      console.log("\n⚠️  DEPRECATED: 'auto-skill search' is deprecated.");
-      console.log("Use Skills CLI for better search experience:\n");
-      console.log(`  npx skills find ${query}\n`);
-      console.log("Or for direct installation:");
-      console.log(`  npx skills add owner/repo@skill-name\n`);
-
-      console.log("(Running legacy search...)\n");
-      const { searchCommand } = await import("./commands/discover");
-      await searchCommand(query, opts);
-    });
 
   // stats command
   program

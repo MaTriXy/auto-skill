@@ -28,7 +28,6 @@ npm install -g @matrixy/auto-skill
 **Available commands:**
 - `auto-skill init` - Initialize config and directories
 - `auto-skill discover` - Discover patterns for current project
-- ~~`auto-skill search`~~ - **DEPRECATED** - Use `npx skills find` instead
 - `auto-skill stats` - Show adoption statistics
 - `auto-skill graduate` - Manage skill graduation
 

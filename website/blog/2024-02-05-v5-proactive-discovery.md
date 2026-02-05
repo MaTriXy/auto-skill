@@ -173,7 +173,24 @@ await loader.stop();
 
 ## ⚠️ Breaking Changes
 
-**None.** Fully backward compatible with v4.x.
+### Removed: `auto-skill search` command
+
+**Why:** Skills CLI (`npx skills find`) provides a superior search experience with interactive fzf-style search, better filtering, and direct installation.
+
+**Migration:**
+```bash
+# OLD (v4.x)
+auto-skill search "react testing"
+
+# NEW (v5.0)
+npx skills find react testing
+```
+
+**For programmatic access**, use the MCP tools instead:
+- `search_skills` - For Auto-Skill's internal proactive discovery
+- `discover_skills` - For context-aware recommendations
+
+This change clarifies Auto-Skill's role as a **skill factory** (generation + publishing) rather than duplicating Skills CLI's distribution capabilities.
 
 ---
 
