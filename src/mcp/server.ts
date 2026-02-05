@@ -35,13 +35,13 @@ export interface McpResponse {
 const TOOLS: McpTool[] = [
   {
     name: "search_skills",
-    description: "Search for skills by query string. Returns matching skills from local, external, and well-known sources.",
+    description: "Search for skills by query string. Returns matching skills from local and external (skills.sh) sources.",
     inputSchema: {
       type: "object",
       properties: {
         query: { type: "string", description: "Search query" },
         limit: { type: "number", description: "Max results (default: 10)" },
-        source: { type: "string", enum: ["all", "local", "external", "wellknown"], description: "Source filter" },
+        includeContent: { type: "boolean", description: "Fetch full SKILL.md content (default: false)" },
       },
       required: ["query"],
     },
@@ -78,22 +78,49 @@ const TOOLS: McpTool[] = [
       },
     },
   },
+  {
+    name: "get_recommendations",
+    description: "Get proactive skill recommendations based on workflow context. Returns external skills that match detected patterns.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        patternId: { type: "string", description: "Optional pattern ID to get recommendations for" },
+      },
+    },
+  },
+  {
+    name: "discover_skills",
+    description: "Proactively discover community skills for the current workflow context. Analyzes frameworks, languages, and tools being used.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        frameworks: { type: "array", items: { type: "string" }, description: "Frameworks in use (e.g., ['react', 'nextjs'])" },
+        languages: { type: "array", items: { type: "string" }, description: "Languages in use (e.g., ['typescript', 'python'])" },
+        intent: { type: "string", enum: ["debug", "implement", "test", "refactor", "explore"], description: "Current intent" },
+      },
+    },
+  },
 ];
 
 /** Handle a tool call by dispatching to the appropriate provider. */
 async function handleToolCall(name: string, args: Record<string, unknown>): Promise<unknown> {
   switch (name) {
     case "search_skills": {
-      // Lazy load to avoid circular deps
-      const { createProviderManager } = await import("../core/providers/manager");
-      const { createLocalProvider } = await import("../core/providers/local-provider");
-      const manager = createProviderManager();
-      manager.register(createLocalProvider());
-      const results = await manager.searchAll(
-        args.query as string,
-        (args.limit as number) || 10
-      );
-      return { count: results.length, skills: results };
+      const { createExternalSkillLoader } = await import("../core/external-skill-loader");
+      const loader = createExternalSkillLoader({
+        githubToken: process.env.GITHUB_TOKEN,
+      });
+
+      await loader.start();
+      try {
+        const response = await loader.search(args.query as string, {
+          limit: (args.limit as number) || 10,
+          includeContent: (args.includeContent as boolean) || false,
+        });
+        return response;
+      } finally {
+        await loader.stop();
+      }
     }
 
     case "get_skill": {
@@ -116,13 +143,64 @@ async function handleToolCall(name: string, args: Record<string, unknown>): Prom
       return { message: "Stats endpoint - connect to telemetry DB for data" };
     }
 
+    case "get_recommendations": {
+      // TODO: Implement pattern-based recommendations
+      return { recommendations: [], message: "Pattern recommendations coming soon" };
+    }
+
+    case "discover_skills": {
+      const { createExternalSkillLoader } = await import("../core/external-skill-loader");
+      const { createProactiveDiscovery } = await import("../core/proactive-discovery");
+
+      const loader = createExternalSkillLoader({
+        githubToken: process.env.GITHUB_TOKEN,
+      });
+
+      await loader.start();
+      try {
+        // Build context from args
+        const frameworks = (args.frameworks as string[]) || [];
+        const languages = (args.languages as string[]) || [];
+        const intent = (args.intent as string) || null;
+
+        // Generate search queries
+        const queries: string[] = [];
+        for (const framework of frameworks) {
+          if (intent) {
+            queries.push(`${framework} ${intent}`);
+          } else {
+            queries.push(`${framework} best practices`);
+          }
+        }
+
+        if (queries.length === 0 && intent) {
+          queries.push(`${intent} workflow`);
+        }
+
+        // Search for skills
+        const recommendations = [];
+        for (const query of queries.slice(0, 3)) {
+          const response = await loader.search(query, { limit: 3 });
+          recommendations.push(...response.skills);
+        }
+
+        return {
+          count: recommendations.length,
+          skills: recommendations,
+          context: { frameworks, languages, intent },
+        };
+      } finally {
+        await loader.stop();
+      }
+    }
+
     default:
       return { error: `Unknown tool: ${name}` };
   }
 }
 
 /** Handle an incoming JSON-RPC request and return a response. */
-function handleRequest(req: McpRequest): McpResponse {
+async function handleRequest(req: McpRequest): Promise<McpResponse> {
   const base = { jsonrpc: "2.0" as const, id: req.id };
 
   switch (req.method) {
@@ -132,7 +210,7 @@ function handleRequest(req: McpRequest): McpResponse {
         result: {
           protocolVersion: "2024-11-05",
           capabilities: { tools: {} },
-          serverInfo: { name: "auto-skill", version: "4.0.1" },
+          serverInfo: { name: "auto-skill", version: "5.0.0" },
         },
       };
 
@@ -144,14 +222,23 @@ function handleRequest(req: McpRequest): McpResponse {
       const name = params.name as string;
       const args = (params.arguments || {}) as Record<string, unknown>;
 
-      // Note: In production, this would be async
-      // For simplicity, we return a sync stub
-      return {
-        ...base,
-        result: {
-          content: [{ type: "text", text: JSON.stringify({ tool: name, args, status: "queued" }) }],
-        },
-      };
+      try {
+        const result = await handleToolCall(name, args);
+        return {
+          ...base,
+          result: {
+            content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+          },
+        };
+      } catch (error) {
+        return {
+          ...base,
+          error: {
+            code: -32603,
+            message: error instanceof Error ? error.message : "Tool execution failed",
+          },
+        };
+      }
     }
 
     default:
@@ -164,10 +251,10 @@ export function startMcpServer(): void {
   const readline = require("node:readline");
   const rl = readline.createInterface({ input: process.stdin });
 
-  rl.on("line", (line: string) => {
+  rl.on("line", async (line: string) => {
     try {
       const req = JSON.parse(line) as McpRequest;
-      const response = handleRequest(req);
+      const response = await handleRequest(req);
       process.stdout.write(JSON.stringify(response) + "\n");
     } catch (err) {
       const errorResponse: McpResponse = {

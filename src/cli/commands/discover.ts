@@ -15,11 +15,6 @@ export interface DiscoverOptions {
   json?: boolean;
 }
 
-/** Options for the search command. */
-export interface SearchOptions {
-  limit?: string;
-  json?: boolean;
-}
 
 /** Options for the stats command. */
 export interface StatsOptions {
@@ -52,48 +47,6 @@ export async function discoverCommand(opts: DiscoverOptions): Promise<void> {
   }
 }
 
-/**
- * Search the Skills.sh registry for external skills matching a query.
- */
-export async function searchCommand(
-  query: string,
-  opts: SearchOptions,
-): Promise<void> {
-  const { createSkillsShClient } = await import("../../core/skillssh-client");
-  const client = createSkillsShClient();
-
-  try {
-    const skills = await client.search(query, parseInt(opts.limit || "10"));
-
-    if (opts.json) {
-      console.log(
-        JSON.stringify({ query, count: skills.length, skills }, null, 2),
-      );
-    } else {
-      console.log(`\nSearching Skills.sh for: '${query}'\n`);
-      if (skills.length === 0) {
-        console.log("No skills found.");
-        return;
-      }
-      for (let i = 0; i < skills.length; i++) {
-        const s = skills[i];
-        console.log(`${i + 1}. ${s.name}`);
-        console.log(`   ${s.description}`);
-        console.log(`   Author: ${s.author} | Installs: ${s.installCount}`);
-        if (s.tags.length) console.log(`   Tags: ${s.tags.join(", ")}`);
-        console.log();
-      }
-    }
-  } catch {
-    if (opts.json) {
-      console.log(
-        JSON.stringify({ error: "Search failed", skills: [] }, null, 2),
-      );
-    } else {
-      console.log("Search failed. Check your internet connection.");
-    }
-  }
-}
 
 /**
  * Show skill adoption statistics for the current project.

@@ -45,16 +45,6 @@ export function createCli(): Command {
       await discoverCommand(opts);
     });
 
-  // search command
-  program
-    .command("search <query>")
-    .description("Search external skills")
-    .option("--limit <n>", "Limit results", "10")
-    .option("--json", "Output as JSON")
-    .action(async (query, opts) => {
-      const { searchCommand } = await import("./commands/discover");
-      await searchCommand(query, opts);
-    });
 
   // stats command
   program

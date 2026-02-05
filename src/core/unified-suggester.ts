@@ -22,8 +22,7 @@ import {
   type MentalModel,
   type MentalCapability,
 } from "./mental-analyzer";
-import { createSkillsShClient } from "./skillssh-client";
-import { createSkillsShProvider } from "./providers/skillssh-provider";
+import { createExternalSkillLoader } from "./external-skill-loader";
 
 // ---------------------------------------------------------------------------
 // Internal helpers
@@ -307,16 +306,15 @@ export function createUnifiedSuggester(options?: {
 
   // Initialize analyzers
   const mental = enableMental ? createMentalAnalyzer(projectPath) : null;
-  const skillsClient = enableExternal ? createSkillsShClient() : null;
+  // NOTE: External skills now handled by external-skill-loader.ts (v5.0)
+  const skillsClient = null; // Deprecated: use createExternalSkillLoader instead
   const tracker = createInMemoryTracker();
 
   // Provider-based discovery
   const providers: SkillProvider[] = options?.providers
     ? [...options.providers]
     : [];
-  if (providers.length === 0 && enableExternal) {
-    providers.push(createSkillsShProvider());
-  }
+  // NOTE: Skills.sh provider removed in v5.0 (use external-skill-loader instead)
 
   // Cache for Mental model (loaded once)
   let mentalModel: MentalModel | null = null;
@@ -402,40 +400,15 @@ export function createUnifiedSuggester(options?: {
 
   /**
    * Create suggestions from Skills.sh based on context.
+   *
+   * NOTE: Deprecated in v5.0 - External skills now handled by external-skill-loader.ts
+   * This function remains for backward compatibility but always returns empty.
    */
   async function suggestFromExternal(
-    sessionContext: Record<string, unknown>,
+    _sessionContext: Record<string, unknown>,
   ): Promise<SkillSuggestion[]> {
-    if (!skillsClient) return [];
-
-    const query = buildSearchQuery(sessionContext);
-    if (!query) return [];
-
-    const externalSkills = await skillsClient.search(query, 5);
-    const suggestions: SkillSuggestion[] = [];
-
-    for (const extSkill of externalSkills) {
-      const adoption = tracker.getAdoption(extSkill.id);
-      const confidence = adoption ? adoption.currentConfidence : 0.5;
-
-      suggestions.push({
-        name: extSkill.name,
-        description: extSkill.description,
-        source: "external",
-        confidence,
-        tags: extSkill.tags,
-        externalMetadata: {
-          id: extSkill.id,
-          author: extSkill.author,
-          installCount: extSkill.installCount,
-          sourceUrl: extSkill.sourceUrl,
-          compatibleAgents: extSkill.compatibleAgents,
-        },
-        adoption: adoption ?? undefined,
-      });
-    }
-
-    return suggestions;
+    // Deprecated: Use createExternalSkillLoader() from external-skill-loader.ts instead
+    return [];
   }
 
   /**
@@ -483,13 +456,9 @@ export function createUnifiedSuggester(options?: {
         suggestions.push(...mentalSuggestions);
       }
 
-      // 3. External skills (with adoption tracking)
-      if (skillsClient && params.sessionContext) {
-        const externalSuggestions = await suggestFromExternal(
-          params.sessionContext,
-        );
-        suggestions.push(...externalSuggestions);
-      }
+      // 3. External skills (deprecated in v5.0)
+      // NOTE: External skills now handled by external-skill-loader.ts
+      // Use createExternalSkillLoader() + createProactiveDiscovery() instead
 
       // Deduplicate and sort by confidence
       const unique = deduplicate(suggestions);

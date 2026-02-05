@@ -29,11 +29,12 @@ auto-skill discover
 
 Display the output to the user so they can choose which skill to load.
 
-### Search for Skills
-If the user wants to find skills by intent:
+### Search for Community Skills
+If the user wants to find community skills, use **Skills CLI**:
 
 ```bash
-auto-skill search "<user's search query>"
+npx skills find <query>         # Interactive search
+npx skills add owner/repo       # Install skill
 ```
 
 ### Load a Specific Skill
