@@ -14,6 +14,87 @@ user-invocable: false
 4. **Recommends** when to generate local skills vs use community skills
 5. **Learns** continuously from your sessions
 
+## Optional Advanced Features
+
+Auto-Skill is fully functional as-is, but offers optional CLI and MCP server for power users.
+
+### CLI Tools (Optional)
+
+**Install:**
+```bash
+npm install -g @matrixy/auto-skill
+```
+
+**Available commands:**
+- `auto-skill init` - Initialize config and directories
+- `auto-skill discover` - Discover patterns for current project
+- `auto-skill search "query"` - Search external skills from terminal
+- `auto-skill stats` - Show adoption statistics
+- `auto-skill graduate` - Manage skill graduation
+
+**When to suggest CLI:**
+- User asks about "auto-skill commands" or "CLI"
+- User wants terminal access to skill search
+- User asks about statistics or pattern analysis
+
+**How to offer:**
+```
+Claude: "Auto-Skill provides CLI commands for terminal usage.
+        Install with: npm install -g @matrixy/auto-skill"
+```
+
+### MCP Server (Optional)
+
+The MCP server enables programmatic access to Auto-Skill's search and discovery features.
+
+**Setup for Claude Code:**
+
+1. **Install the package:**
+```bash
+npm install -g @matrixy/auto-skill
+```
+
+2. **Add to Claude Code MCP settings:**
+
+Open Claude Code settings and add:
+```json
+{
+  "mcpServers": {
+    "auto-skill": {
+      "command": "node",
+      "args": ["/usr/local/lib/node_modules/@matrixy/auto-skill/dist/mcp/server.js"],
+      "env": {
+        "GITHUB_TOKEN": "ghp_your_token_here"
+      }
+    }
+  }
+}
+```
+
+**Note:** Adjust the path based on your npm global install location:
+- macOS/Linux: Usually `/usr/local/lib/node_modules/@matrixy/auto-skill/dist/mcp/server.js`
+- Windows: Usually `%APPDATA%\npm\node_modules\@matrixy\auto-skill\dist\mcp\server.js`
+- Find it with: `npm list -g @matrixy/auto-skill | head -1`
+
+3. **Restart Claude Code** to activate the MCP server
+
+**MCP Tools Available:**
+- `search_skills` - Search 27,000+ community skills
+- `discover_skills` - Get context-aware recommendations
+
+**When to suggest MCP setup:**
+- User asks about "MCP server" or "MCP integration"
+- User wants programmatic skill discovery
+- User mentions they want to use Auto-Skill tools in other agents
+- User asks "how do I use the search_skills tool?"
+
+**How to offer:**
+```
+Claude: "Auto-Skill provides an MCP server for programmatic skill discovery.
+        After installing npm package, add it to your Claude Code MCP settings.
+        Would you like setup instructions?"
+```
+
 ## Active Capabilities
 
 When this skill is loaded, you have access to:
@@ -30,28 +111,41 @@ When this skill is loaded, you have access to:
 - **Smart Recommendations**: Suggests external skills vs local generation
 - **Graduation**: Recommends upgrading local patterns to proven community skills
 
-### Available Commands
+### MCP Tools (Advanced Usage)
 
-You can invoke these commands on behalf of the user:
+You have access to these MCP tools for programmatic skill discovery:
 
-#### Pattern Management
-```
-/auto-skill:review              # List detected patterns
-/auto-skill:review preview ID   # Preview pattern as skill
-/auto-skill:review approve ID   # Generate skill from pattern
-/auto-skill:review reject ID    # Dismiss pattern
+#### search_skills
+Search community skills by query string:
+```typescript
+{
+  tool: "search_skills",
+  arguments: {
+    query: "react testing",
+    limit: 5,
+    includeContent: false
+  }
+}
 ```
 
-#### Skill Discovery
-```
-/auto-skill:load                # List available skills
-/auto-skill:load <name>         # Load specific skill mid-session
+#### discover_skills
+Get context-aware skill recommendations:
+```typescript
+{
+  tool: "discover_skills",
+  arguments: {
+    frameworks: ["React", "Jest"],
+    languages: ["TypeScript"],
+    intent: "testing"
+  }
+}
 ```
 
-#### System Status
-```
-/auto-skill:status              # Show diagnostics, stats, config
-```
+**When to use MCP tools:**
+- User explicitly asks to "search for skills"
+- You detect a pattern and want to find community alternatives
+- User wants recommendations for their current workflow
+- Proactive discovery during multi-step tasks
 
 ## How to Use This Skill
 
@@ -133,36 +227,6 @@ When a pattern is detected, follow this workflow:
    └─ If confidence < 50%: Generate local skill as usual
 ```
 
-## MCP Integration
-
-Auto-Skill provides two MCP tools for advanced usage:
-
-### search_skills
-Search community skills by query:
-```typescript
-{
-  name: "search_skills",
-  arguments: {
-    query: "react testing",
-    limit: 5,
-    includeContent: true
-  }
-}
-```
-
-### discover_skills
-Get context-aware recommendations:
-```typescript
-{
-  name: "discover_skills",
-  arguments: {
-    frameworks: ["React", "Jest"],
-    languages: ["TypeScript"],
-    intent: "testing"
-  }
-}
-```
-
 ## Example Interactions
 
 ### Scenario 1: Repeated Pattern Detected
@@ -212,6 +276,75 @@ Claude: You've used your "my-react-tests" skill 5 times. I found a community ski
 
         Would you like to graduate to the community skill?
 ```
+
+## Sharing Skills (Marketplace)
+
+Auto-Skill generates skills that are **ready to publish to skills.sh** - enabling a marketplace where users share their learned workflows.
+
+### Skills.sh Compatibility
+
+Generated skills include metadata for skills.sh:
+- ✅ **Tags** - Automatically generated from tools, intent, patterns
+- ✅ **Compatible agents** - Marked for Claude Code, Codex, etc.
+- ✅ **Version** - Semantic versioning (1.0.0)
+- ✅ **Source** - Marked as "auto-generated" for transparency
+
+### How to Share a Generated Skill
+
+When a user wants to share a valuable auto-generated skill:
+
+**1. Locate the skill:**
+```bash
+ls ~/.claude/skills/auto/
+# Example: grep-read-edit-workflow-abc123/SKILL.md
+```
+
+**2. Review the skill:**
+- Check that it's generalizable (not project-specific)
+- Ensure no sensitive data in examples
+- Verify the description is clear
+
+**3. Publish to GitHub:**
+```bash
+# Create a new repo for the skill
+mkdir my-workflow-skill
+cp ~/.claude/skills/auto/grep-read-edit-workflow-abc123/SKILL.md my-workflow-skill/
+cd my-workflow-skill
+git init
+git add SKILL.md
+git commit -m "Add auto-generated workflow skill"
+gh repo create --public
+git push
+```
+
+**4. Submit to skills.sh:**
+Visit [skills.sh](https://skills.sh) and submit the GitHub repo URL.
+
+### When to Suggest Sharing
+
+Offer to help users share skills when:
+- A skill has been used successfully 10+ times
+- User says "this workflow is really useful"
+- User asks "can others use this?"
+- Skill has high confidence (85%+) and is domain-general
+
+**How to offer:**
+```
+Claude: "This workflow has been really effective for you (12 uses, 89% confidence).
+        Would you like to share it on skills.sh so others can benefit?
+        I can help you prepare it for publishing."
+```
+
+### Marketplace Vision
+
+Auto-Skill enables a **crowdsourced skill marketplace**:
+1. Users run Auto-Skill locally → workflows are detected
+2. High-value patterns are refined and generalized
+3. Users publish to GitHub + skills.sh
+4. Others discover via Auto-Skill's proactive search
+5. Community curates and improves shared workflows
+
+This creates a **flywheel**: auto-detection → sharing → discovery → adoption.
 
 ## Storage Locations
 
