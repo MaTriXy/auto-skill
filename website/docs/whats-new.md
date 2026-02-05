@@ -35,7 +35,7 @@ const recommendations = await discovery.discoverForPattern({
 
 ### External Skill Loader
 
-Port of [Skyll](https://github.com/MaTriXy/skyll)'s SkillSearchService to TypeScript with full Auto-Skill integration.
+Port of [Skyll](https://github.com/assafelovic/skyll)'s SkillSearchService to TypeScript with full Auto-Skill integration.
 
 **Features:**
 - Searches 27,000+ skills from [Skills.sh](https://skills.sh)

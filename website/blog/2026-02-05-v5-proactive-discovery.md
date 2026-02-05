@@ -206,7 +206,7 @@ This change clarifies Auto-Skill's role as a **skill factory** (generation + pub
 
 ## 🙏 Credits
 
-This release was inspired by [Skyll](https://github.com/MaTriXy/skyll) - we ported its search architecture to TypeScript for seamless Auto-Skill integration.
+This release was inspired by [Skyll](https://github.com/assafelovic/skyll).
 
 ---
 
