@@ -1,9 +1,19 @@
 # Changelog
 
-All notable changes to Auto-Skill will be documented in this file.
+All notable changes to Auto-Skill are documented here.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## Version History
+
+- **[v5.0.0 (2024-02-05)](changelog/v5.0.md)** — Proactive Skill Discovery with 27,000+ community skills
+- **[v4.0.1 (2025-01-30)](changelog/v4.0.md)** — Node.js Migration & Clean Release
+- [v3.0.2 (2025-01-29)](#302---2025-01-29) — Fix pip install crash
+- [v2.0.0 (2025-01-26)](#200---2025-01-26) — Session Analysis, LSP & Design Patterns
+- [v1.0.0 (2024)](#100---2024-xx-xx) — Initial Release
+
+For the latest release announcement, see [our blog](https://MaTriXy.github.io/auto-skill).
 
 ---
 

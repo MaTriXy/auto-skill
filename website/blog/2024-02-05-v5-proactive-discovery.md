@@ -165,9 +165,9 @@ await loader.stop();
 
 ## 📚 Documentation
 
-- **[Proactive Discovery Guide](/features/proactive-discovery)** - Complete usage guide
+- **[Proactive Discovery Guide](/docs/features/proactive-discovery)** - Complete usage guide
 - **[Examples](https://github.com/MaTriXy/auto-skill/tree/main/examples)** - 5 runnable code examples
-- **[Full Changelog](https://github.com/MaTriXy/auto-skill/blob/main/CHANGELOG_V5.md)** - Detailed release notes
+- **[Full Changelog](https://github.com/MaTriXy/auto-skill/blob/main/changelog/v5.0.md)** - Detailed release notes
 
 ---
 
