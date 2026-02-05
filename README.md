@@ -36,8 +36,7 @@ Once installed, the plugin automatically:
 
 ```bash
 auto-skill init                # Initialize config and directories
-auto-skill discover            # Discover skills for current project
-auto-skill search "query"      # Search external skills
+auto-skill discover            # Discover patterns for current project
 auto-skill stats               # Show adoption statistics
 auto-skill graduate            # Manage skill graduation
 auto-skill agents list         # List known coding agents
@@ -51,6 +50,13 @@ auto-skill version             # Show version
 ```
 
 All commands support `--json` output.
+
+**For skill search and installation**, use [Skills CLI](https://skills.sh/docs/cli):
+```bash
+npx skills find [query]        # Interactive skill search
+npx skills add owner/repo      # Install skills from GitHub
+npx skills list                # List installed skills
+```
 
 ## Key Features
 

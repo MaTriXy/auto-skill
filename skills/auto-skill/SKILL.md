@@ -28,14 +28,19 @@ npm install -g @matrixy/auto-skill
 **Available commands:**
 - `auto-skill init` - Initialize config and directories
 - `auto-skill discover` - Discover patterns for current project
-- `auto-skill search "query"` - Search external skills from terminal
+- ~~`auto-skill search`~~ - **DEPRECATED** - Use `npx skills find` instead
 - `auto-skill stats` - Show adoption statistics
 - `auto-skill graduate` - Manage skill graduation
 
 **When to suggest CLI:**
 - User asks about "auto-skill commands" or "CLI"
-- User wants terminal access to skill search
 - User asks about statistics or pattern analysis
+- User wants to manage skill graduation
+
+**When to suggest Skills CLI instead:**
+- User wants to search for skills manually → `npx skills find [query]`
+- User wants to install a specific skill → `npx skills add owner/repo@skill`
+- User wants to list installed skills → `npx skills list`
 
 **How to offer:**
 ```
@@ -241,6 +246,9 @@ User: Yes please
 
 Claude: [Searches skills.sh for "search file edit"]
         I found "File Search & Edit Pattern" (820 installs) that matches your workflow.
+
+        Install with: npx skills add vercel-labs/agent-skills@file-search-edit
+
         Would you prefer to:
         1. Use the community skill (recommended)
         2. Generate a custom skill based on your specific usage
@@ -258,7 +266,9 @@ Claude: [Searches skills.sh for "react testing", "react component testing"]
         - Mocking patterns for React hooks
         - Testing Library best practices
 
-        Should I load this skill to help you?
+        Install with: npx skills add owner/repo@react-test-patterns
+
+        Should I install this skill for you?
 ```
 
 ### Scenario 3: Skill Graduation
@@ -274,7 +284,68 @@ Claude: You've used your "my-react-tests" skill 5 times. I found a community ski
         - Includes more test cases
         - Regular updates for new React features
 
+        Install with: npx skills add owner/repo@react-test-patterns
+
         Would you like to graduate to the community skill?
+```
+
+### Scenario 4: Manual Skill Search
+
+**User asks: "Are there any skills for testing?"**
+
+```
+Claude: You can search for skills interactively with Skills CLI:
+
+        npx skills find testing
+
+        Or if you know what you're looking for:
+
+        npx skills add owner/repo@skill-name
+
+        Would you like me to search Auto-Skill's database for testing-related patterns instead?
+```
+
+## Integration with Skills CLI
+
+Auto-Skill **complements** the Skills CLI ecosystem rather than duplicating it.
+
+### Division of Responsibilities
+
+**Auto-Skill (Skill Factory):**
+- 🏭 **Pattern Detection** - Observes and learns from workflows
+- 🎯 **Auto-Generation** - Creates skills from detected patterns
+- 🔍 **Proactive Discovery** - Searches skills.sh BEFORE generating
+- 📊 **Quality Scoring** - Evaluates skill readiness for publishing
+- 📤 **Publishing Helper** - Prepares skills for marketplace (coming soon)
+
+**Skills CLI (Skill Distribution):**
+- 🔎 **Search** - `npx skills find` for interactive search
+- 📦 **Installation** - Multi-agent install with symlinks
+- 🔄 **Updates** - `npx skills check` and `npx skills update`
+- 📋 **Management** - List, remove, and track installed skills
+
+**skills.sh (Skill Registry):**
+- 🌐 **Catalog** - Central repository of 27,000+ skills
+- 📈 **Metrics** - Install counts and popularity tracking
+- 🔗 **Discovery** - Web interface for browsing
+
+### When to Use Each Tool
+
+**For manual skill search:**
+```bash
+npx skills find react testing    # Interactive search
+npx skills add owner/repo@skill  # Direct install
+```
+
+**For automatic skill discovery:**
+- Auto-Skill proactively searches when detecting patterns
+- Recommendations include `npx skills add` commands
+- You can suggest: "Install with: npx skills add ..."
+
+**For publishing skills:**
+```bash
+auto-skill publish <pattern-id>  # Coming in v5.1
+# For now: Manual GitHub repo + skills.sh submission
 ```
 
 ## Sharing Skills (Marketplace)
