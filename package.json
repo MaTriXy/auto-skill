@@ -23,6 +23,7 @@
   "files": [
     "dist",
     "bin",
+    "skills",
     "src/hooks/hooks.json",
     "README.md",
     "LICENSE"
